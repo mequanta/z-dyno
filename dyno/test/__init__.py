@@ -1,2 +1,2 @@
-from . handlers import TestBacktestHandlder, TestLiveTradeHandlder
+from . handlers import TestBacktestHandlder, TestLiveTradeHandlder, StatusHandlder
 

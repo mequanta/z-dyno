@@ -1,7 +1,4 @@
 tornado>=4.2.1
-flask>=0.10.1
-flask_mongoengine>=0.7.1
 oic>=0.7.7
-tushare>=0.4.0
--e git+https://github.com/quantopian/zipline#egg=zipline
+mongoengine>=0.10.0
 -e git+https://github.com/quantopian/qdb#egg=qdb
