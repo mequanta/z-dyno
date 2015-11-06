@@ -1,8 +1,8 @@
 from qdb.server import QdbClientServer
 
 class DynoQdbClientServer(QdbClientServer):
-    def __init__(self, session_store):
-        super(DynoQdbClientServer, self).init(session_store)
+    def __init__(self):
+        super(DynoQdbClientServer, self).__init__(None)
         self._server = None
 
     def address(self):

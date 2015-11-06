@@ -5,6 +5,8 @@ from dyno.debug import DebugHandler
 from dyno.test import TestBacktestHandlder, TestLiveTradeHandlder, StatusHandlder
 from tornado.web import FallbackHandler
 from tornado.wsgi import WSGIContainer
+from dyno.debug import DynoQdbClientServer
+
 if __name__ == "__main__":
     import ssl
     import logging
@@ -14,7 +16,8 @@ if __name__ == "__main__":
     import os
     port = 8000
 
-    qdb_app = WSGIContainer()
+    qdb_server = DynoQdbClientServer()
+    qdb_app = WSGIContainer(qdb_server.handle_client)
 
     logging.getLogger().setLevel(logging.DEBUG)
 
@@ -22,7 +25,7 @@ if __name__ == "__main__":
                    keyfile=os.path.join(os.path.dirname(__file__), "certs" , "localhost.key"))
 
     application = Application([
-        (r'/backtests/debug/(.*)', FallbackHandler, dict(fallback=qdb_app)),
+        #(r'/backtests/debug/(.*)', FallbackHandler, dict(fallback=qdb_app)),
         (r'/backtests/(.*)', BacktestHandler),
         (r'/transactions/(.*)', TransactionHandler),
         (r'/trading_sessions/(.*)', LiveTradingHandler),
