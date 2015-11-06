@@ -3,7 +3,6 @@ from qdb.server import QdbServer
 import json
 import os
 
-
 class BacktestHandler(WebSocketHandler):
     def check_origin(self, origin):
         return True

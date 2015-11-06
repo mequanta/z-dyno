@@ -1,17 +1,12 @@
 from qdb.server.server import QdbServer
 from qdb.server import QdbClientServer
 from qdb.server import SessionStore
-from gevent.pywsgi import WSGIServer, WSGIHandler
-
-from geventwebsocket import WebSocketServer, Resource, WebSocketApplication
-from geventwebsocket.handler import WebSocketHandler
+from geventwebsocket import WebSocketServer, WebSocketApplication
 from logbook import StderrHandler
 import os
 import re
 
-from gevent.wsgi import WSGIServer
-
-from flask import Flask, render_template
+from flask import Flask
 app = Flask(__name__)
 @app.route('/status')
 def status():
@@ -47,10 +42,6 @@ keyfile=os.path.join(os.path.dirname(__file__), "certs" , "localhost.key")
 
 QDB_ROUTE = '/backtests/debug/(.+)'
 
-class StatusApplication(WSGIHandler):
-    def handle(self):
-        pass
-
 class EchoApplication(WebSocketApplication):
     def on_open(self):
         print "Connection opened"
@@ -61,9 +52,36 @@ class EchoApplication(WebSocketApplication):
     def on_close(self, reason):
         print reason
 
+import json
 
-apps = {"/echo": EchoApplication, "/status": app.wsgi_app}
+class BacktestApplication(WebSocketApplication):
+    def on_open(self):
+        print "Connection opened"
 
+    def on_message(self, message):
+        print "message:{}".format(message)
+        m = json.loads(message)
+        if m['e'] == 'open':
+            self.send_data()
+            self.ws.close()
+
+    def on_close(self, reason):
+        print reason
+
+    def send_data(self):
+        print "send_data"
+        f = open(os.path.join(os.path.dirname(__file__), 'new_s1.json'))
+        try:
+             text = f.read( )
+             packets = json.loads(text)
+             for p in packets:
+                self.ws.send(json.dumps(p))
+        finally:
+             f.close( )
+
+apps = {"/echo": EchoApplication,
+        "/status": app.wsgi_app,
+        "/backtest": BacktestApplication}
 
 class MyQdbClientServer(QdbClientServer):
     def __init__(self, session_store,  apps=apps, host='localhost', port=8002, route=QDB_ROUTE, auth_fn=None, auth_timeout=60):
