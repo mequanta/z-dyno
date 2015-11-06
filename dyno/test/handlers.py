@@ -8,7 +8,7 @@ class StatusHandlder(RequestHandler):
 <html>
 <head>
     <script type="text/javascript">
-        var scheme = document.location.protocol === "http" ? "ws" : "wss"
+        var scheme = document.location.protocol == "https:" ? "wss" : "ws"
         var ws_url = scheme + '://' + document.location.hostname + ':' + document.location.port + '/echo';
         var ws = new WebSocket(ws_url);
         ws.onopen = function() {
