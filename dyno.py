@@ -13,6 +13,7 @@ gevent.monkey.patch_all()
 
 from gevent.pywsgi import WSGIServer
 
+
 if __name__ == "__main__":
     import ssl
     import logging
@@ -22,9 +23,6 @@ if __name__ == "__main__":
     import os
     port = 8000
 
-    #qdb_server = DynoQdbClientServer()
-    #qdb_app = WSGIContainer(qdb_server.handle_client)
-
     logging.getLogger().setLevel(logging.DEBUG)
 
     certfile=os.path.join(os.path.dirname(__file__), "certs", "localhost.crt")
@@ -32,17 +30,9 @@ if __name__ == "__main__":
     ssl_ctx = dict(certfile=certfile, keyfile=keyfile)
 
     application = Application([
-        #(r'/backtests/debug/(.*)', DebugHandler),
-        #(r'/backtests/(.*)', BacktestHandler),
-        #(r'/transactions/(.*)', TransactionHandler),
-        #(r'/trading_sessions/(.*)', LiveTradingHandler),
         (r'/status', StatusHandlder),
         (r'/echo', EchoHandlder)
     ], debug = True)
-    #server = WSGIServer(('', port), WSGIAdapter(application), certfile=certfile, keyfile=keyfile)
-    #server = WSGIServer(('', port), WSGIAdapter(application))
-    #logging.debug('Listening on http(s)://localhost:%d' % port)
-    #server.serve_forever()
 
     server = HTTPServer(application, ssl_options=ssl_ctx)
     server.listen(port)
