@@ -2,7 +2,7 @@ from dyno.backtest import BacktestHandler
 from dyno.livetrade import LiveTradingHandler
 from dyno.transaction import TransactionHandler
 from dyno.debug import DebugHandler
-from dyno.test import TestBacktestHandlder, TestLiveTradeHandlder, StatusHandlder
+from dyno.test import StatusHandlder, EchoHandlder
 from tornado.web import FallbackHandler
 from tornado.wsgi import WSGIContainer
 from dyno.debug import DynoQdbClientServer
@@ -29,9 +29,8 @@ if __name__ == "__main__":
         (r'/backtests/(.*)', BacktestHandler),
         (r'/transactions/(.*)', TransactionHandler),
         (r'/trading_sessions/(.*)', LiveTradingHandler),
-        (r'/test/backtests', TestBacktestHandlder),
-        (r'/test/trading_sessions', TestLiveTradeHandlder),
-        (r'/status', StatusHandlder)
+        (r'/status', StatusHandlder),
+        (r'/echo', EchoHandlder)
     ])
 
     server = HTTPServer(application, ssl_options=ssl_ctx)
