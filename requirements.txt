@@ -2,3 +2,4 @@ tornado>=4.2.1
 oic>=0.7.7
 mongoengine>=0.10.0
 -e git+https://github.com/quantopian/qdb#egg=qdb
+-e git+https://github.com/quantopian/pyfolio#egg=pyfolio

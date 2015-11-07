@@ -35,7 +35,7 @@ class EchoApplication(WebSocketApplication):
         print "[EchoApplication] Connection opened"
 
     def on_message(self, message):
-        self.ws.send("[EchoApplication] %s" % message)
+        self.ws.send(message)
 
     def on_close(self, reason):
         print "[EchoApplication] Connection closed"
