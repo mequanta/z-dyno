@@ -17,9 +17,10 @@ apps = {"/echo": EchoApplication,
 
 if __name__ == '__main__':
     session_store = SessionStore()
-    client_server = DynoQdbClientServer(host="0.0.0.0", apps=apps, certfile=certfile, keyfile=keyfile, route=QDB_ROUTE,
+    client_server = DynoQdbClientServer(host="0.0.0.0", apps=apps, route=QDB_ROUTE, certfile=certfile, keyfile=keyfile,
                                         session_store=session_store, port=8000)
+    #client_server = DynoQdbClientServer(host="0.0.0.0", apps=apps, route=QDB_ROUTE, session_store=session_store)
 
     handler = StderrHandler()
     with handler:
-        QdbServer(client_server=client_server).serve_forever()
+        QdbServer(session_store=session_store, client_server=client_server).serve_forever()

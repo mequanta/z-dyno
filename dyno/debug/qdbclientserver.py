@@ -5,7 +5,10 @@ import re
 class DynoQdbClientServer(QdbClientServer):
     def __init__(self, session_store,  apps=None, certfile=None, keyfile=None, host='localhost', port=8002, route=None, auth_fn=None, auth_timeout=60):
         super(DynoQdbClientServer, self).__init__(session_store, host, port, route, auth_fn, auth_timeout)
-        self._server = WebSocketServer((host, port), self.handle_client, certfile=certfile, keyfile=keyfile)
+        if certfile is not None and keyfile is not None:
+            self._server = WebSocketServer((host, port), self.handle_client, certfile=certfile, keyfile=keyfile)
+        else:
+            self._server = WebSocketServer((host, port), self.handle_client)
         self.apps = apps if apps else {}
 
     def handle_client(self, environ, start_response):
