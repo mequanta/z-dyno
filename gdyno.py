@@ -10,8 +10,10 @@ from dyno.test import EchoApplication, flask_app
 from dyno.backtest import BacktestApplication
 import os
 
-certfile=os.path.join(os.path.dirname(__file__), "certs", "localhost.crt")
-keyfile=os.path.join(os.path.dirname(__file__), "certs" , "localhost.key")
+certfile = keyfile = None
+if not os.environ.get("NO_HTTPS", None):
+    certfile=os.path.join(os.path.dirname(__file__), "certs", "localhost.crt")
+    keyfile=os.path.join(os.path.dirname(__file__), "certs" , "localhost.key")
 
 QDB_ROUTE = '/backtests/debug/(.+)'
 
