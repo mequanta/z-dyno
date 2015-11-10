@@ -1,3 +1,7 @@
+#/usr/bin/env python2
+
+import dyno.patch_ssl
+
 from qdb.server.server import QdbServer
 from qdb.server import SessionStore
 from logbook import StderrHandler
@@ -19,7 +23,6 @@ if __name__ == '__main__':
     session_store = SessionStore()
     client_server = DynoQdbClientServer(host="0.0.0.0", apps=apps, route=QDB_ROUTE, certfile=certfile, keyfile=keyfile,
                                         session_store=session_store, port=8000)
-    #client_server = DynoQdbClientServer(host="0.0.0.0", apps=apps, route=QDB_ROUTE, session_store=session_store)
 
     handler = StderrHandler()
     with handler:

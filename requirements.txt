@@ -1,2 +1,3 @@
+gevent-websocket>=0.9.3
 -e git+https://github.com/quantopian/qdb#egg=qdb
 -e git+https://github.com/quantopian/pyfolio#egg=pyfolio
